@@ -2,17 +2,8 @@ import { useState } from 'react';
 import FoodCard from '@/components/FoodCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Grid2X2, List, Filter } from 'lucide-react';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Grid2X2, List } from 'lucide-react';
+import FoodFilters from '@/components/FoodFilters';
 
 const FOOD_ITEMS = [
   {
@@ -28,13 +19,40 @@ const FOOD_ITEMS = [
     allergens: ["dairy"],
   },
   {
+    name: "Wagyu Burger",
+    restaurant: "Morton's Steakhouse",
+    price: 28.99,
+    rating: 4,
+    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500",
+    cuisine: "American",
+    dietary: ["Gluten-Free Option"],
+    calories: 900,
+    protein: 48,
+    allergens: ["dairy"],
+  },
+  {
     name: "Dragon Roll",
     restaurant: "Sushi Ko",
     price: 18.99,
     rating: 4,
     image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500",
     cuisine: "Japanese",
-    dietary: ["Pescatarian"]
+    dietary: ["Pescatarian"],
+    calories: 450,
+    protein: 20,
+    allergens: ["fish", "soy"],
+  },
+  {
+    name: "Dragon Roll",
+    restaurant: "Sushi Taro",
+    price: 22.99,
+    rating: 5,
+    image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500",
+    cuisine: "Japanese",
+    dietary: ["Pescatarian"],
+    calories: 420,
+    protein: 22,
+    allergens: ["fish", "soy"],
   },
   {
     name: "Truffle Pasta",
@@ -43,7 +61,22 @@ const FOOD_ITEMS = [
     rating: 5,
     image: "https://images.unsplash.com/photo-1556760544-74068565f05c?w=500",
     cuisine: "Italian",
-    dietary: ["Vegetarian"]
+    dietary: ["Vegetarian"],
+    calories: 780,
+    protein: 18,
+    allergens: ["gluten", "dairy"],
+  },
+  {
+    name: "Truffle Pasta",
+    restaurant: "RPM Italian",
+    price: 36.99,
+    rating: 4,
+    image: "https://images.unsplash.com/photo-1556760544-74068565f05c?w=500",
+    cuisine: "Italian",
+    dietary: ["Vegetarian"],
+    calories: 800,
+    protein: 20,
+    allergens: ["gluten", "dairy"],
   },
   {
     name: "Butter Chicken",
@@ -52,25 +85,22 @@ const FOOD_ITEMS = [
     rating: 5,
     image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500",
     cuisine: "Indian",
-    dietary: ["Gluten-Free"]
+    dietary: ["Gluten-Free"],
+    calories: 650,
+    protein: 35,
+    allergens: ["dairy"],
   },
   {
-    name: "Fish Tacos",
-    restaurant: "Oyamel",
-    price: 16.99,
+    name: "Butter Chicken",
+    restaurant: "Bombay Club",
+    price: 24.99,
     rating: 4,
-    image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500",
-    cuisine: "Mexican",
-    dietary: ["Dairy-Free"]
-  },
-  {
-    name: "Pho",
-    restaurant: "Pho 75",
-    price: 14.99,
-    rating: 4,
-    image: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=500",
-    cuisine: "Vietnamese",
-    dietary: ["Dairy-Free"]
+    image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500",
+    cuisine: "Indian",
+    dietary: ["Gluten-Free"],
+    calories: 680,
+    protein: 32,
+    allergens: ["dairy"],
   }
 ];
 
@@ -101,7 +131,7 @@ const BestRated = () => {
         item.name.toLowerCase().includes(food.trim().toLowerCase())
       )) return false;
       if (filters.avoidIngredients && filters.avoidIngredients.split(',').some(ingredient => 
-        item.allergens.includes(ingredient.trim().toLowerCase())
+        item.allergens?.includes(ingredient.trim().toLowerCase())
       )) return false;
       return true;
     })
@@ -159,61 +189,7 @@ const BestRated = () => {
           </div>
 
           <div className="flex gap-4">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Filter className="h-4 w-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Dietary Filters</SheetTitle>
-                  <SheetDescription>
-                    Set your dietary preferences and restrictions
-                  </SheetDescription>
-                </SheetHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="avoid-foods">Foods to Avoid (comma-separated)</Label>
-                    <Input
-                      id="avoid-foods"
-                      value={filters.avoidFoods}
-                      onChange={(e) => setFilters(prev => ({ ...prev, avoidFoods: e.target.value }))}
-                      placeholder="e.g., peanuts, shellfish"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="max-calories">Maximum Calories</Label>
-                    <Input
-                      id="max-calories"
-                      type="number"
-                      value={filters.maxCalories}
-                      onChange={(e) => setFilters(prev => ({ ...prev, maxCalories: e.target.value }))}
-                      placeholder="e.g., 800"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="min-protein">Minimum Protein (g)</Label>
-                    <Input
-                      id="min-protein"
-                      type="number"
-                      value={filters.minProtein}
-                      onChange={(e) => setFilters(prev => ({ ...prev, minProtein: e.target.value }))}
-                      placeholder="e.g., 20"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="avoid-ingredients">Ingredients to Avoid (comma-separated)</Label>
-                    <Input
-                      id="avoid-ingredients"
-                      value={filters.avoidIngredients}
-                      onChange={(e) => setFilters(prev => ({ ...prev, avoidIngredients: e.target.value }))}
-                      placeholder="e.g., dairy, gluten"
-                    />
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+            <FoodFilters filters={filters} setFilters={setFilters} />
 
             <div className="flex gap-2 border rounded-lg p-1">
               <Button
@@ -241,30 +217,41 @@ const BestRated = () => {
             ))}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {filteredItems.map((item, index) => (
-              <div key={index} className="flex items-center gap-4 p-4 bg-white rounded-lg shadow">
-                <div className="flex-grow">
-                  <h3 className="font-semibold text-lg">{item.name}</h3>
-                  <p className="text-muted-foreground">{item.restaurant}</p>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-primary font-medium">${item.price.toFixed(2)}</span>
-                    <div className="flex items-center">
-                      {Array(5).fill(0).map((_, i) => (
-                        <span key={i} className={`text-sm ${i < item.rating ? 'text-primary' : 'text-gray-300'}`}>★</span>
-                      ))}
+              <FoodDetailsDialog key={index} {...item} reviews={MOCK_REVIEWS}>
+                <div className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-grow">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-semibold">{item.name}</h3>
+                          <p className="text-sm text-muted-foreground">{item.restaurant}</p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center">
+                            {Array(5).fill(0).map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${i < item.rating ? 'fill-primary text-primary' : 'text-gray-300'}`}
+                              />
+                            ))}
+                          </div>
+                          <span className="font-medium text-primary">${item.price.toFixed(2)}</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        <span className="bg-secondary px-2 py-0.5 rounded-full text-xs">{item.cuisine}</span>
+                        {item.dietary?.map((diet) => (
+                          <span key={diet} className="bg-secondary px-2 py-0.5 rounded-full text-xs">
+                            {diet}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span className="bg-secondary px-2 py-1 rounded-full text-xs">{item.cuisine}</span>
-                    {item.dietary?.map((diet) => (
-                      <span key={diet} className="bg-secondary px-2 py-1 rounded-full text-xs">
-                        {diet}
-                      </span>
-                    ))}
-                  </div>
                 </div>
-              </div>
+              </FoodDetailsDialog>
             ))}
           </div>
         )}
