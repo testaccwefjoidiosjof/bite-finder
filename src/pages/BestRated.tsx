@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import FoodCard from '@/components/FoodCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button, Input } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Grid2X2, List, Star } from 'lucide-react';
 import FoodFilters from '@/components/FoodFilters';
 import FoodDetailsDialog from '@/components/FoodDetailsDialog';
