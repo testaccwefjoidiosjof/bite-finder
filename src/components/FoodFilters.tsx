@@ -1,11 +1,11 @@
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 import { Filter } from "lucide-react";
 
 interface FiltersProps {
@@ -22,15 +22,7 @@ interface FiltersProps {
 
 const FoodFilters = ({ filters, setFilters }: FiltersProps) => {
   return (
-    <div className="flex gap-4 items-center">
-      <Input
-        placeholder="Search foods..."
-        value={filters.search}
-        onChange={(e) =>
-          setFilters((prev: any) => ({ ...prev, search: e.target.value }))
-        }
-        className="w-64"
-      />
+    <div className="flex items-center">
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="outline" size="icon">
