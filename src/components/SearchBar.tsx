@@ -17,7 +17,7 @@ const SearchBar = () => {
   ];
 
   const handleSearch = (searchQuery: string) => {
-    navigate(`/search?search=${encodeURIComponent(searchQuery)}`);
+    navigate(`/best-rated?search=${encodeURIComponent(searchQuery)}`);
   };
 
   return (

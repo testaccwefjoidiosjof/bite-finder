@@ -2,6 +2,7 @@ import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogTrigger,
+  AlertDialogOverlay,
 } from "@/components/ui/alert-dialog";
 import { Star, X } from "lucide-react";
 import { Card } from "./ui/card";
@@ -49,6 +50,7 @@ const FoodDetailsDialog = ({
       <AlertDialogTrigger asChild>
         {children}
       </AlertDialogTrigger>
+      <AlertDialogOverlay className="bg-black/50" />
       <AlertDialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0">
         <div className="animate-in fade-in-0 zoom-in-95 relative">
           <Button 
