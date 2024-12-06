@@ -81,6 +81,8 @@ const SearchResults = () => {
     maxCalories: "",
     minProtein: "",
     avoidIngredients: "",
+    maxPrice: "",
+    search: ""
   });
 
   const searchQuery = searchParams.get('search')?.toLowerCase() || '';

@@ -136,6 +136,8 @@ const BestRated = () => {
     maxCalories: "",
     minProtein: "",
     avoidIngredients: "",
+    maxPrice: "",
+    search: ""
   });
 
   const filteredItems = FOOD_ITEMS
