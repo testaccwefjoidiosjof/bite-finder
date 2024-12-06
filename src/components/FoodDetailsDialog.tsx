@@ -3,9 +3,10 @@ import {
   AlertDialogContent,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Star } from "lucide-react";
+import { Star, X } from "lucide-react";
 import { Card } from "./ui/card";
 import { ReactNode } from "react";
+import { Button } from "./ui/button";
 
 interface Review {
   author: string;
@@ -49,7 +50,15 @@ const FoodDetailsDialog = ({
         {children}
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0">
-        <div className="animate-in fade-in-0 zoom-in-95">
+        <div className="animate-in fade-in-0 zoom-in-95 relative">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="absolute right-2 top-2 z-10 bg-white/80 hover:bg-white/90 rounded-full"
+            onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Escape'}))}
+          >
+            <X className="h-4 w-4" />
+          </Button>
           <div className="h-64 relative">
             <img
               src={image}

@@ -17,8 +17,7 @@ const SearchBar = () => {
   ];
 
   const handleSearch = (searchQuery: string) => {
-    // Navigate to best rated with search params
-    navigate(`/best-rated?search=${encodeURIComponent(searchQuery)}`);
+    navigate(`/search?search=${encodeURIComponent(searchQuery)}`);
   };
 
   return (
