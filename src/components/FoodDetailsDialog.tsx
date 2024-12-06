@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Star } from "lucide-react";
 import { Card } from "./ui/card";
+import { ReactNode } from "react";
 
 interface Review {
   author: string;
@@ -14,6 +15,7 @@ interface Review {
 }
 
 interface FoodDetailsProps {
+  children: ReactNode;
   name: string;
   restaurant: string;
   price: number;
@@ -28,6 +30,7 @@ interface FoodDetailsProps {
 }
 
 const FoodDetailsDialog = ({ 
+  children,
   name, 
   restaurant, 
   price, 
@@ -43,12 +46,7 @@ const FoodDetailsDialog = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div className="cursor-pointer w-full">
-          {/* Render the original content that triggers the dialog */}
-          <div className="contents">
-            {/* This will wrap around the existing card/list item content */}
-          </div>
-        </div>
+        {children}
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0">
         <div className="animate-in fade-in-0 zoom-in-95">

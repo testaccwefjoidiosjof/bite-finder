@@ -2,8 +2,9 @@ import { useState } from 'react';
 import FoodCard from '@/components/FoodCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Grid2X2, List } from 'lucide-react';
+import { Grid2X2, List, Star } from 'lucide-react';
 import FoodFilters from '@/components/FoodFilters';
+import FoodDetailsDialog from '@/components/FoodDetailsDialog';
 
 const FOOD_ITEMS = [
   {
@@ -101,6 +102,27 @@ const FOOD_ITEMS = [
     calories: 680,
     protein: 32,
     allergens: ["dairy"],
+  }
+];
+
+const MOCK_REVIEWS = [
+  {
+    author: "Sarah J.",
+    rating: 5,
+    comment: "Absolutely amazing! The flavors were perfectly balanced.",
+    date: "2024-02-15"
+  },
+  {
+    author: "Mike R.",
+    rating: 4,
+    comment: "Really good, but a bit pricey for the portion size.",
+    date: "2024-02-10"
+  },
+  {
+    author: "Lisa M.",
+    rating: 5,
+    comment: "My new favorite! The quality is consistently excellent.",
+    date: "2024-02-05"
   }
 ];
 
