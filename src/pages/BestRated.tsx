@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FoodCard from '@/components/FoodCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
+import { Button, Input } from '@/components/ui/button';
 import { Grid2X2, List, Star } from 'lucide-react';
 import FoodFilters from '@/components/FoodFilters';
 import FoodDetailsDialog from '@/components/FoodDetailsDialog';
+import { useLocation } from 'react-router-dom';
 
 const FOOD_ITEMS = [
   {
@@ -131,6 +132,7 @@ const BestRated = () => {
   const [cuisine, setCuisine] = useState("all");
   const [sortBy, setSortBy] = useState("rating");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     avoidFoods: "",
     maxCalories: "",
@@ -140,7 +142,26 @@ const BestRated = () => {
     search: ""
   });
 
+  // Get search param from URL if it exists
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialSearch = searchParams.get('search') || '';
+
+  // Set initial search query from URL params
+  useEffect(() => {
+    if (initialSearch) {
+      setSearchQuery(initialSearch);
+    }
+  }, [initialSearch]);
+
   const filteredItems = FOOD_ITEMS
+    .filter(item => {
+      // Search filter
+      if (searchQuery) {
+        return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+      }
+      return true;
+    })
     .filter(item => {
       if (priceRange === "budget") return item.price < 15;
       if (priceRange === "mid") return item.price >= 15 && item.price < 25;
@@ -172,7 +193,17 @@ const BestRated = () => {
       
       <div className="max-w-6xl mx-auto mb-8">
         <div className="flex flex-wrap gap-4 justify-between items-center mb-8">
-          <div className="flex gap-4">
+          <div className="flex gap-4 w-full md:w-auto mb-4 md:mb-0">
+            <Input
+              type="text"
+              placeholder="Search foods..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full md:w-[300px]"
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-4">
             <Select onValueChange={setPriceRange} defaultValue={priceRange}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Price Range" />
